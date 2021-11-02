@@ -1,4 +1,4 @@
-# ROS Package for Door state estimation
+# ROS Package for Door state estimation (developing)
 
 [![Python](https://img.shields.io/badge/python-3.5%20%7C%203.6%20%7C%203.7-blue.svg?style=flat-square)](https://www.python.org/)
 [![ROS Version](https://img.shields.io/badge/ROS-noetic-green?style=flat-square)](https://wiki.ros.org)
