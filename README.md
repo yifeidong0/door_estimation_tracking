@@ -1,4 +1,4 @@
-# ROS Package for Door state estimation
+# ROS Package of Door State Estimation and Parameter Identification for Mobile Manipulation
 
 [![Python](https://img.shields.io/badge/python-3.6-blue.svg?style=flat-square)](https://www.python.org/)
 [![ROS Version](https://img.shields.io/badge/ROS-melodic-green?style=flat-square)](https://wiki.ros.org)
@@ -6,7 +6,9 @@
 A ROS package for doors and handles detection, tracking and estimation using [YOLOv5](https://github.com/ultralytics/yolov5) and [python-pcl](https://github.com/strawlab/python-pcl).
 
 **Maintainer:** Yifei Dong
+
 **Affiliation:** Robotic Systems Lab, ETH Zurich (Master thesis project)
+
 **Contact:** yifdong@student.ethz.ch   
 
 ## Table of Contents
@@ -23,7 +25,7 @@ A ROS package for doors and handles detection, tracking and estimation using [YO
 First, clone the project repository to the `src` directory in your catkin workspace:
 
 ```bash
-git clone git@bitbucket.org:leggedrobotics/alma_handle_detection.git
+git clone https://github.com/YvesDong/door_estimation_tracking.git
 git checkout yolov5_door_detection
 ```
 
@@ -61,7 +63,7 @@ After downloading, please run the bag in another console:
 rosbag play <name>.bag
 ```
 
-In another console, run:
+In a third console, run:
 
 ```bash
 roscore
