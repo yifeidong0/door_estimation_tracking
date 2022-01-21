@@ -1,27 +1,21 @@
-# ROS Package for Door state estimation (developing)
+# ROS Package for Door state estimation
 
-[![Python](https://img.shields.io/badge/python-3.5%20%7C%203.6%20%7C%203.7-blue.svg?style=flat-square)](https://www.python.org/)
-[![ROS Version](https://img.shields.io/badge/ROS-noetic-green?style=flat-square)](https://wiki.ros.org)
+[![Python](https://img.shields.io/badge/python-3.6-blue.svg?style=flat-square)](https://www.python.org/)
+[![ROS Version](https://img.shields.io/badge/ROS-melodic-green?style=flat-square)](https://wiki.ros.org)
 
-A ROS package for detecting objects using [YOLOv5](https://github.com/facebookresearch/detectron2).
-
-
-
-The information about supported models are available [here](https://github.com/facebookresearch/detectron2/blob/master/MODEL_ZOO.md).
+A ROS package for doors and handles detection, tracking and estimation using [YOLOv5](https://github.com/ultralytics/yolov5) and [python-pcl](https://github.com/strawlab/python-pcl).
 
 **Maintainer:** Yifei Dong
-**Affiliation:** Robotic Systems Lab, ETH Zurich   
-**Contact:** yifdong@ethz.ch   
+**Affiliation:** Robotic Systems Lab, ETH Zurich (Master thesis project)
+**Contact:** yifdong@student.ethz.ch   
 
 ## Table of Contents
 
-- [ROS Package for Detectron2](#ros-package-for-detectron2)
+- [ROS Package for Door State Estimation](#ros-package-for-door-state-estimation)
   - [Table of Contents](#table-of-contents)
   - [Setup Instructions](#setup-instructions)
   - [Build Instructions](#build-instructions)
   - [Running Instructions](#running-instructions)
-    - [Demo on RGBD Freiburg Office dataset](#demo-on-rgbd-freiburg-office-dataset)
-    - [Example Usage](#example-usage)
   - [Acknowledgment](#acknowledgment)
 
 ## Setup Instructions
@@ -29,7 +23,8 @@ The information about supported models are available [here](https://github.com/f
 First, clone the project repository to the `src` directory in your catkin workspace:
 
 ```bash
-git clone git@bitbucket.org:leggedrobotics/detectron2_ros.git
+git clone git@bitbucket.org:leggedrobotics/alma_handle_detection.git
+git checkout yolov5_door_detection
 ```
 
 To setup the python dependencies, run the bash script:
@@ -39,61 +34,75 @@ To setup the python dependencies, run the bash script:
 ```
 
 __Note:__
-The above script installs [PyTorch 1.9](https://pytorch.org/get-started/locally/) with CUDA 11.1, [detectron2 v0.5](https://github.com/facebookresearch/detectron2) and [other python modules](requirements.txt).
+Please follow the links below to install other necessary dependencies: [tensorrt](https://github.com/NVIDIA/TensorRT) with CUDA 10.2, [python-pcl](https://github.com/strawlab/python-pcl), [vision_opencv](https://github.com/ros-perception/vision_opencv), [geometry2](https://github.com/ros/geometry).
 
 ## Build Instructions
 
+Packages geometry2 (tf), python-pcl and vision_opencv (cv_bridge) defaut to python2. To make it compatible with python3.6, some flags are needed as below. (Example paths on Jetson Xavier with ARM64 structure. Please modify them if needed.)
+
 ```bash
 cd /PATH/TO/catkin_ws
-catkin config -DCMAKE_BUILD_TYPE=Release
-catkin build
+catkin_make -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.6m -DPYTHON_LIBRARY=/usr/lib/aarch64-linux-gnu/libpython3.6m.so
+source devel/setup.bash
 ```
 
 ## Running Instructions
+To obtain the best inference results, please switch models in ... according to the size of your input images.
 
-The pre-trained models are downloaded by the [`detectron2.model_zoo`](https://github.com/facebookresearch/detectron2/blob/master/detectron2/model_zoo/model_zoo.py#L83) submodule so one does not need to manually download them. The very first time the model is run it downloads the checkpoint from the internet.
+Change other configs as well according to the names of your dataset. 
 
-### Demo on RGBD Freiburg Office dataset
+Please download bag files from the [link](https://drive.google.com/drive/folders/16u9uYu5A5InifDU48hyCIGuyFZrY8kMx?usp=sharing).
 
-- To run the demo, first download the bag file using the bash script [here](bags/download_example_bag.sh):
+For example use without changing the config, please download [this one](https://drive.google.com/file/d/1rnSXJUNDLSRbkQX87NYmCwkXGWCwl6qj/view?usp=sharing) first.
 
-```bash
-bash ./bags/download_example_bag.sh
-```
-
-- Run the launch file which runs the nodes for playing the bag file, detecting objects and displaying the results:
+After downloading, please run the bag in another console:
 
 ```bash
-roslaunch detectron2_ros demo_image_segmentation.launch
+rosbag play <name>.bag
 ```
 
-The ouput should be similar to as follows:
-
-![Results on Freiburg dataset](docs/images/example_output.gif)
-
-### Example Usage
-
-For more generic usage, run the following launch file for Mask R-CNN with ResNet-101 head and Fast Proposal Network trained on COCO instance segmentation dataset:
+In another console, run:
 
 ```bash
-roslaunch detectron2_ros image_segment.launch cfg_filename:=COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x.yaml
+roscore
 ```
 
-- To view the results using [`image_view`](http://wiki.ros.org/image_view):
+Run the estimator while the bag is re-playing:
 
 ```bash
-rosrun image_view image_view image:=/detectron2/image
+cd src/alma_handle_detection
+python3 estimate.py
 ```
 
-- To change the model, you just need to load a different configuration file. The argument `cfg_filename`
-is set relative to the [`configs`](https://github.com/facebookresearch/detectron2/tree/master/configs) directory in detectron2 module.
+Pause or continue the bag re-play according to the reminders in the console.
 
-The output with the model trained only on LVIS dataset should look as follows:
+When the interactive window pops up, please select RoI (a target door) manually to initialize the estimator.
 
-![Results on Gazebo simulation](docs/images/results_gazebo.png)
+Vizualize the estimation results in Rviz (door_estimation/viz/rviz.rviz), rqt_image_view, or rqt_multiplot (door_estimation/viz/plot.xml)
+
+```bash
+rviz
+rqt_multiplot
+rqt_image_view
+```
+
+![Results in Rviz simulation](demo.gif)
 
 ## Acknowledgment
 
-The repository is inspired from the code from the following:
+The repository is dependent on the code from the following:
 
-- <https://github.com/DavidFernandezChaves/Detectron2_ros>
+- <https://github.com/wang-xinyu/tensorrtx/tree/master/yolov5>
+- <https://github.com/ultralytics/yolov5>
+- <https://github.com/MiguelARD/DoorDetect-Dataset>
+
+
+
+
+
+<!-- The pre-trained models of object detector are from [yolov5-models] (https://github.com/ultralytics/yolov5/releases) and trained on [DoorDetect-Dataset] (https://github.com/MiguelARD/DoorDetect-Dataset) with data augmentation. (Please refer to [train-custom-data] (https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data))
+
+The pytorch neural network model is then converted to a TensorRT model using [tensorrtx] (https://github.com/wang-xinyu/tensorrtx/tree/master/yolov5). -->
+
+
+

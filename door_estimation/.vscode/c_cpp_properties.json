@@ -1,0 +1,27 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/src/vision_opencv/cv_bridge/include/**",
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/src/vision_opencv/image_geometry/include/**",
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/src/geometry2/tf2/include/**",
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/src/geometry2/tf2_bullet/include/**",
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/src/geometry2/tf2_eigen/include/**",
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/src/geometry2/tf2_geometry_msgs/include/**",
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/src/geometry2/tf2_kdl/include/**",
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/src/geometry2/tf2_msgs/include/**",
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/src/geometry2/tf2_ros/include/**",
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/src/geometry2/tf2_sensor_msgs/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

@@ -1,0 +1,14 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/devel/lib/python3/dist-packages",
+        "/media/rsl-admin/xavier_ssd/catkin_ws_realsense/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages",
+        "/usr/local/lib"
+    ],
+    "python.analysis.extraPaths": [
+        "/media/rsl-admin/xavier_ssd1/yif/catkin_yolo/devel/lib/python3/dist-packages",
+        "/media/rsl-admin/xavier_ssd/catkin_ws_realsense/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages",
+        "/usr/local/lib"
+    ]
+}

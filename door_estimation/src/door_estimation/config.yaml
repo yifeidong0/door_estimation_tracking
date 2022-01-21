@@ -1,0 +1,39 @@
+yolo:
+  yolo_img_size: 640  # 320, 640, 960, 1280
+  conf_thresh: 0.25
+  iou_thresh: 0.33
+
+function:
+  do_vis: True
+  do_print: True
+  do_plot: True
+  do_selectROI: True
+  run_apriltag: True
+  run_csrt: True
+
+# for <dec->.bag
+tf:
+  src_frame: /world_corrected
+  dst_frame: /dynaarm_REALSENSE_color_optical_frame
+ros:
+  node_name: door_estimator
+  rgb_topic: /dynaarm_REALSENSE/color/image_raw
+  dep_topic: /dynaarm_REALSENSE/aligned_depth_to_color/image_raw
+  info_topic: /dynaarm_REALSENSE/color/camera_info
+
+
+# for <jul->.bag
+# src_frame: /tag_1
+# dst_frame: /dynaarm_REALSENSE_color_optical_frame
+# node_name: /door_estimator
+# rgb_topic: /camera/color/image_raw
+# dep_topic: /camera/aligned_depth_to_color/image_raw
+# info_topic: /camera/color/camera_info
+
+# for <jan->.bag
+# src_frame: /map
+# dst_frame: /dynaarm_camera_color_optical_frame
+# node_name: /door_estimator
+# rgb_topic: /dynaarm_REALSENSE/color/image_raw
+# dep_topic: /dynaarm_REALSENSE/aligned_depth_to_color/image_raw
+# info_topic: /dynaarm_REALSENSE/color/camera_info
